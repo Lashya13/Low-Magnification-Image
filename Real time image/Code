@@ -1,0 +1,15 @@
+import cv2
+from google.colab.patches import cv2_imshow
+import numpy as np
+import matplotlib.pyplot as plt
+
+%matplotlib inline
+
+image = cv2.imread('bright.jpg')
+plt.imshow(image)
+
+mask = np.zeros(image.shape[:2], dtype="uint8")
+cv2.rectangle(mask, (780, 1350), (3850, 300), 255, -1)
+
+masked = cv2.bitwise_and(image, image, mask=mask)
+cv2_imshow(masked)
