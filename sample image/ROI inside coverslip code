@@ -1,0 +1,39 @@
+import cv2
+import numpy as np
+from google.colab.patches import cv2_imshow
+
+# Let's load a simple image with 3 black squares
+image = cv2.imread('cover1.png')
+cv2.waitKey(0)
+
+# Grayscale
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+# Find Canny edges
+edged = cv2.Canny(gray, 30, 200)
+cv2.waitKey(0)
+indices = np.where(edged != [0])
+coordinates = zip(indices[0], indices[1])
+#print(coordinates)
+#print(zip())
+#print(zip(indices))
+#np.where(zip)
+
+# Finding Contours
+# Use a copy of the image e.g. edged.copy()
+# since findContours alters the image
+contours, hierarchy = cv2.findContours(edged,
+	cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+
+cv2_imshow( edged)
+cv2.waitKey(0)
+
+print("Number of Contours found = " + str(len(contours)))
+
+# Draw all contours
+# -1 signifies drawing all contours
+cv2.drawContours(image, contours, 2, (0, 255, 0), 3)
+
+cv2_imshow( image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
